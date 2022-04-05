@@ -1,0 +1,15 @@
+###sendSms
+Post http://localhost:3900/auth/sendsms
+Content-Type: application/json
+
+{
+    "mobile" : "09367109093"
+}
+
+###saveNumber
+Post http://localhost:3900/auth/saveNumber
+Content-Type: application/json
+
+{
+    "mobile" : "09367109093"
+}

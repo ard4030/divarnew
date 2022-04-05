@@ -1,0 +1,22 @@
+{
+  "name": "divar-node-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "express-formidable": "^1.2.0",
+    "express-validator": "^6.14.0",
+    "melipayamak": "^1.0.5",
+    "melipayamak-api": "^0.1.0",
+    "mongoose": "^6.2.9",
+    "multiparty": "^4.2.3"
+  }
+}
