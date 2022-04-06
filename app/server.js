@@ -1,4 +1,5 @@
 const { AllRoutes } = require("./router/router");
+const cors = require("cors")
 module.exports = class Application {
     #express = require("express");
     #app = this.#express();
@@ -12,9 +13,10 @@ module.exports = class Application {
     }
     configApplication(){
         const path = require("path");
-        this.#app.use(this.#express.static(path.join(__dirname, "..", "public")));
-        this.#app.use(this.#express.json());
-        this.#app.use(this.#express.urlencoded({extended : true}));         
+        this.#app.use(cors())
+        this.#app.use(this.#express.static(path.join(__dirname, "..", "public")))
+        this.#app.use(this.#express.json())
+        this.#app.use(this.#express.urlencoded({extended : true}))        
     }
     createServer(PORT){
         const http = require("http");
