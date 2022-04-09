@@ -14,7 +14,7 @@ module.exports = class Application {
     configApplication(){
         const path = require("path");
         this.#app.use(cors())
-        this.#app.use(this.#express.static(path.join(__dirname, "..", "public")))
+        this.#app.use(this.#express.static(path.join(__dirname, "..")))
         this.#app.use(this.#express.json())
         this.#app.use(this.#express.urlencoded({extended : true}))        
     }
@@ -43,7 +43,7 @@ module.exports = class Application {
         this.#app.use((error, req, res, next) => {
             const status = error?.status || 500;
             const message = error?.message || "InternalServerError";
-            return res.status(status).json({
+            return res.status(200).json({
                 status,
                 success : false,
                 message
