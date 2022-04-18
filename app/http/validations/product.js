@@ -3,7 +3,8 @@
 
   function productValidator(){
        return [
-           body("title").isLength({min:5,max:30}).withMessage("موضوع آگهی حداقل 5 و حداکثر 20 کاراکتر"),
+           body("title").isLength({min:5,max:20}).withMessage("موضوع آگهی حداقل 5 و حداکثر 20 کاراکتر"),
+           body("address").isLength({min:5,max:40}).withMessage(" آدرس حداقل 5 و حداکثر 23 کاراکتر"),
            body("description").isLength({min:15,max:200}).withMessage("توضیحات حداقل 15 و حداکثر 200 کاراکتر"),
            body("city").notEmpty().withMessage("لطفا یک شهر را انتخاب کنید"),
            body("price").custom((value,ctx) => {

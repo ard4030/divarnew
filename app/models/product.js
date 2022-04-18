@@ -13,7 +13,8 @@ const ProductSchema = new mongoose.Schema({
     timee : {type : String},
     userCradit : {type : String,required:true},
     adminDesc : {type : String,default:''},
-    status : {type : String,default:"1"}
+    status : {type : String,default:"1"},
+    address : {type : String,default:"بدون آدرس"}
 }, {
     timestamps : true
 });

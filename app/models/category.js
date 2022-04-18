@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const CategorySchema = new mongoose.Schema({
     title : {type : String,required : true},
-    parent : {type : String,default:"0" },
+    parent : {type : mongoose.Types.ObjectId,default:undefined , required:false},
 }, {
     timestamps : true
 });

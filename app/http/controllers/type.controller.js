@@ -8,7 +8,7 @@ class TypeProdController {
         res.status(200).json({
             status:200,
             message:"اطلاعات دریافت شد",
-            seccess:true,
+            success:true,
             data:result
         })
        } catch (error) {

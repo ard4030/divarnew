@@ -1,6 +1,7 @@
 const multer = require("multer");
 const path = require("path");
 const { createUploadPath } = require("./functions");
+const sharp = require("sharp")
 
 const storage = multer.diskStorage({
     destination : (req,file,cb) => {

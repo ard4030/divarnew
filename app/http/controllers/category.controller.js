@@ -3,7 +3,24 @@ const { CategoryModel } = require("../../models/category");
 class CategoryController {
     async getAllCategorys(req,res,next){
         try {
-         const result = await CategoryModel.find({})
+         const result = await CategoryModel.aggregate([
+             {
+                 $lookup : {
+                     from :"categories",
+                     localField:"_id",
+                     foreignField:"parent",
+                     as :"children"
+                 }
+             },{
+                 $project :{
+                     __v :0
+                 }
+             },{
+                 $match : {
+                     parent:undefined
+                 }
+             }
+         ])
          res.status(200).json({
              status:200,
              success:true,

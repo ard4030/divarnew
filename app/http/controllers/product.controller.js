@@ -1,4 +1,5 @@
 const { ProductModel } = require("../../models/product");
+const { CategoryModel } = require("../../models/category");
 
 class ProductController {
         getAllProduct(req,res,next){
@@ -12,9 +13,9 @@ class ProductController {
 
         async createProduct(req,res,next){
             try {
-                const {title,category,city,price,typee,statu,mobile,description,images,timee,id} = req.body;
+                const {title,category,city,price,typee,statu,mobile,description,images,timee,id,address} = req.body;
                 const result = await ProductModel.create({
-                    title,category,city,price,typee,statu,mobile,description,images,timee,userCradit:id
+                    title,category,city,price,typee,statu,mobile,description,images,timee,userCradit:id,address
                 })
                 if(!result) throw "مشکل در ایجاد آگهی . لطفا مجدد تلاش نمایید";
                 return res.status(200).json({
@@ -30,19 +31,170 @@ class ProductController {
         async getProduct(req,res,next){
             try {
                 const {title,category,statu,city,typee,offset} = req.body;
-                const result = await ProductModel.find({
+               
+                    const result2 = await CategoryModel.aggregate([
+                        { 
+                            $lookup : {
+                                from :"categories",
+                                localField:"_id",
+                                foreignField:"parent",
+                                as :"children"
+                            }
+                        },{
+                            $project :{
+                                __v :0
+                            }
+                        },{
+                            $match : {
+                                parent:undefined
+                            }
+                        }
+                    ])
+
+                    
+                     let titles = ["null","null","null","null","null","null"];
+                    result2.forEach(element => {
+                        if(element.title === category){
+                            element.children.map((row,index) => {
+                                titles[index] = row.title
+                               /*  titles.push() */
+                            })
+                            
+                        }
+                    }); 
+
+    
+                 const result = await ProductModel.find({
                     title: {'$regex': title},
-                    category: {'$regex': category},
+                     $or: [ 
+                         {category:{'$regex': titles[0]}} ,
+                          {category:{'$regex': titles[1]}},
+                          {category:{'$regex': titles[2]}},
+                          {category:{'$regex': titles[3]}},
+                          {category:{'$regex': titles[4]}},
+                          {category:{'$regex': titles[5]}},
+                          {category:{'$regex': category}} ],  
                     statu: {'$regex': statu},
                     city: {'$regex': city},
                     typee: {'$regex': typee},
                     offset: {'$regex': offset},
-                }).skip(offset).limit(12);
-                return res.status(200).json({
-                   
+                }).skip(offset).limit(12); 
+                return res.status(200).json({                  
                    result
                 })
 
+            } catch (error) {
+                next(error)
+            }
+        }
+
+        async getProductUserOk(req,res,next){
+            try {
+                const {mobile} = req.body;
+                const result = await ProductModel.find({mobile,status:2})
+                if(!result) throw "هیچ آگهی پیدا نشد";
+                return res.status(200).json({
+                    status:200,
+                    success:true,
+                    message:"دیتا با وفقیت دریافت شد",
+                    data:result
+                })
+            } catch (error) {
+                next(error)
+            }
+        }
+
+        async getProductUserTest(req,res,next){
+            try {
+                const {mobile} = req.body;
+                const result = await ProductModel.find({mobile,status:1})
+                if(!result) throw "هیچ آگهی پیدا نشد";
+                return res.status(200).json({
+                    status:200,
+                    success:true,
+                    message:"دیتا با وفقیت دریافت شد",
+                    data:result
+                })
+            } catch (error) {
+                next(error)
+            }
+        }
+
+        async getProductUserWaitPay(req,res,next){
+            try {
+                const {mobile} = req.body;
+                const result = await ProductModel.find({mobile,status:6})
+                if(!result) throw "هیچ آگهی پیدا نشد";
+                return res.status(200).json({
+                    status:200,
+                    success:true,
+                    message:"دیتا با وفقیت دریافت شد",
+                    data:result
+                })
+            } catch (error) {
+                next(error)
+            }
+        }
+
+        async getProductUserPayOk(req,res,next){
+            try {
+                const {mobile} = req.body;
+                const result = await ProductModel.find({mobile,status:7})
+                if(!result) throw "هیچ آگهی پیدا نشد";
+                return res.status(200).json({
+                    status:200,
+                    success:true,
+                    message:"دیتا با وفقیت دریافت شد",
+                    data:result
+                })
+            } catch (error) {
+                next(error)
+            }
+        }
+
+        async getProductUserForReview(req,res,next){
+            try {
+                const {mobile} = req.body;
+                const result = await ProductModel.find({mobile,status:3})
+                if(!result) throw "هیچ آگهی پیدا نشد";
+                return res.status(200).json({
+                    status:200,
+                    success:true,
+                    message:"دیتا با وفقیت دریافت شد",
+                    data:result
+                })
+            } catch (error) {
+                next(error)
+            }
+        }
+
+        async getProductUserFailed(req,res,next){
+            try {
+                const {mobile} = req.body;
+                const result = await ProductModel.find({mobile,status:4})
+                if(!result) throw "هیچ آگهی پیدا نشد";
+                return res.status(200).json({
+                    status:200,
+                    success:true,
+                    message:"دیتا با وفقیت دریافت شد",
+                    data:result
+                })
+            } catch (error) {
+                next(error)
+            }
+        }
+
+        async getProductUserTimeOut(req,res,next){
+            try {
+                const {mobile} = req.body;
+                const result = await ProductModel.find({mobile,status:5})
+                if(!result) throw "هیچ آگهی پیدا نشد";
+                return res.status(200).json({
+                    status:200,
+                    success:true,
+                    message:"دیتا با وفقیت دریافت شد",
+                    data:result
+                })
             } catch (error) {
                 next(error)
             }
