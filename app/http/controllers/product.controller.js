@@ -11,6 +11,21 @@ class ProductController {
            }
         }
 
+        async getProductById(req,res,next){
+            try {
+                const {id} = req.body;
+                const result = await ProductModel.find({_id:id});
+                if(!result) throw {status:400,message:"خطا در دریافت اطلاعات"}
+                res.status(200).json({
+                    status:200,
+                    success:true,
+                    result
+                })
+            } catch (error) {
+                next(error)
+            }
+        }
+
         async createProduct(req,res,next){
             try {
                 const {title,category,city,price,typee,statu,mobile,description,images,timee,id,address} = req.body;
@@ -78,6 +93,7 @@ class ProductController {
                     city: {'$regex': city},
                     typee: {'$regex': typee},
                     offset: {'$regex': offset},
+                    status:2
                 }).skip(offset).limit(12); 
                 return res.status(200).json({                  
                    result

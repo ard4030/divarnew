@@ -13,6 +13,8 @@ router.post("/getProductUserPayOk",checkLogin,ProductController.getProductUserPa
 router.post("/getProductUserForReview",checkLogin,ProductController.getProductUserForReview)
 router.post("/getProductUserFailed",checkLogin,ProductController.getProductUserFailed)
 router.post("/getProductUserTimeOut",checkLogin,ProductController.getProductUserTimeOut)
+router.post("/getProductById",checkLogin,ProductController.getProductById)
+
 
 
 

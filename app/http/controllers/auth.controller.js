@@ -22,6 +22,48 @@ class AuthController {
         }  
     }
 
+    async saveBookmark(req,res,next){
+        try {
+            const {productId,userId} = req.body;
+            /*  await UserModel.updateOne({_id:userId},{$push :{bookmarks:productId}}*/
+            const result = await UserModel.findOne({_id:userId})
+            if(!result) throw {status:400,message:"خطا در دریافت"}
+            const isBookmark = result.bookmarks.includes(productId)
+            return res.status(200).json({
+                status:200,
+                success:true,
+                data : isBookmark
+            })
+            
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async toggleBookmark(req,res,next){
+        try {
+            const {productId,userId} = req.body;
+            const result = await UserModel.findOne({_id:userId});
+            if(!result) throw {status:400,message:"خطا در دریافت"}
+            const isBookmark = result.bookmarks.includes(productId);
+            if(isBookmark){
+                await UserModel.updateOne({_id:userId},{$pull :{bookmarks:productId}})
+            }else{
+                await UserModel.updateOne({_id:userId},{$push :{bookmarks:productId}})
+            } 
+
+            return res.status(200).json({
+                status:200,
+                success:true
+            })
+
+
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
    async saveNumber(req,res,next){
         try {
             const {mobile} = req.body;

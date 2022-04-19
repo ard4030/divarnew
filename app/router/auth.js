@@ -10,6 +10,10 @@ router.post("/saveNumber",numberValidator(),expressValidatorMapper,AuthControlle
 router.post("/isLogin",checkLogin,AuthController.checkLog)
 router.post("/getProfile",checkLogin,AuthController.getUserProfile)
 router.post("/updateProfile",checkLogin,AuthController.updateProfile)
+router.post("/saveBookmark",checkLogin,AuthController.saveBookmark)
+router.post("/toggleBookmark",checkLogin,AuthController.toggleBookmark)
+
+
 
 
 
