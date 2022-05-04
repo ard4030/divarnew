@@ -1,12 +1,14 @@
 const { createLinkForFiles, createUrlImage } = require("../../modules/functions")
 const fs = require("fs")
 const path = require("path")
+const sharp = require('sharp');
+const { resizeImage } = require("../../modules/imageResize");
 
 class NewController {
 
    async uploadImage(req,res,next) {
         try {
-            const url = req.file.path.replace(/[\\\\]/gm, "/")
+            const url = req.body.image.replace(/[\\\\]/gm, "/")
             res.status(200).json({
                 status:200,
                 message:"آپلود انجام شد",
@@ -34,6 +36,7 @@ class NewController {
            next(error)
        }
    }
+
 }
 
 module.exports = {

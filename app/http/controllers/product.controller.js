@@ -2,9 +2,82 @@ const { ProductModel } = require("../../models/product");
 const { CategoryModel } = require("../../models/category");
 
 class ProductController {
-        getAllProduct(req,res,next){
+
+        async updateProductStatus(req,res,next){
+            try {
+                const {productId,statu} = req.body;
+                const result = await ProductModel.updateOne({_id:productId},{$set :{status:statu}})
+                if(!result) throw {status:400,message:"خطا در انجام عملیات"}
+                return res.status(200).json({
+                    status:200,
+                    success:true,
+                })
+            } catch (error) {
+                next(error)
+            }
+        }
+
+        async updateProductOnAdmin(req,res,next){
+            try {
+                const {_id,adminDesc} = req.body;
+                const result = await ProductModel.updateOne({_id},{$set :{adminDesc:adminDesc}}).sort({'_id':-1})
+                if(!result) throw{status:200,message:"خطا دردریافت اطلاعات"}
+                return res.status(200).json({
+                    status:200,
+                    success:true,
+                    message:"اطلاعات با موفقیت بروز شد"
+                })
+            } catch (error) {
+                next(error)
+            }
+        }
+
+        async getProductsOnAdmin(req,res,next){
+            try {
+                const {statu,mobile,typee,city,timee,title,offset} = req.body;
+                const result = await ProductModel.find({
+                    statu: {'$regex': statu}, 
+                    mobile: {'$regex': mobile},
+                    city: {'$regex': city},
+                    typee: {'$regex': typee},
+                    timee: {'$regex': timee},
+                    title: {'$regex': title}
+                }).skip(offset).limit(12).sort({_id:-1}); 
+                return res.status(200).json({
+                    status:200,
+                    success:true,
+                    result
+                })
+            } catch (error) {
+                next(error)
+            }
+        }
+
+        async getAllProduct(req,res,next){
+            try {
+
+                const {limit} = req.body;
+                const result = await ProductModel.find({}).limit(limit)
+                if(!result) throw {status:400,message:"خطا در دریافت اطلاعات"}
+                return res.status(200).json({
+                    status:200,
+                    success:true,
+                    result
+                })
+            } catch (error) {
+                next(error)
+            }
+        }
+
+        async getAllProductCount(req,res,next){
            try {
-            /* const {title,category,statu,city,type,offset} = req.body; */
+            const result = await ProductModel.count()
+             if(!result) throw {status:200,message:"حطا در دریافت"}
+            return res.status(200).json({
+                status:200,
+                success:true,
+                data:result
+            }) 
             
            } catch (error) {
                next(error)
@@ -94,7 +167,7 @@ class ProductController {
                     typee: {'$regex': typee},
                     offset: {'$regex': offset},
                     status:2
-                }).skip(offset).limit(12); 
+                }).skip(offset).limit(12).sort({_id:-1});; 
                 return res.status(200).json({                  
                    result
                 })

@@ -7,7 +7,7 @@ function imageValidator() {
             const ext = path.extname(req.file.originalname);
             const exts = [".png", ".jpg", ".jpeg", ".gif", ".webp"];
             if(!exts.includes(ext)) throw "فرمت ارسال شده صحیح نمیباشد";
-            const maxSize = 2 * 1024*1024;
+            const maxSize = 15 * 1024*1024;
             if(req.file.size > maxSize) throw "حجم فایل نمیتواند بیبشتر از 2 مگابایت باشد"
             return true
         })

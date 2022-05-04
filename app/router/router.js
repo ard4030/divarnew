@@ -5,6 +5,7 @@ const { newRouter } = require("./new")
 const { productRouter } = require("./product")
 const { statuRouter } = require("./statu")
 const { typeProdRouter } = require("./typeProd")
+const {adminRouter} = require("./admin")
 
 const router = require("express").Router()
 router.use("/auth",authRouter)
@@ -14,10 +15,7 @@ router.use("/new",newRouter)
 router.use("/city",cityRouter)
 router.use("/type",typeProdRouter)
 router.use("/statu",statuRouter)
-
-
-
-
+router.use("/admin",adminRouter)
 
 
 module.exports = {

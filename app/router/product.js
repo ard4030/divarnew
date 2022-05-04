@@ -14,6 +14,17 @@ router.post("/getProductUserForReview",checkLogin,ProductController.getProductUs
 router.post("/getProductUserFailed",checkLogin,ProductController.getProductUserFailed)
 router.post("/getProductUserTimeOut",checkLogin,ProductController.getProductUserTimeOut)
 router.post("/getProductById",checkLogin,ProductController.getProductById)
+router.post("/getAllProductCount",checkLogin,ProductController.getAllProductCount)
+router.post("/getAllProduct",checkLogin,ProductController.getAllProduct)
+router.post("/getProductsOnAdmin",checkLogin,ProductController.getProductsOnAdmin)
+router.post("/updateProductOnAdmin",checkLogin,ProductController.updateProductOnAdmin)
+router.post("/updateProductStatus",checkLogin,ProductController.updateProductStatus)
+
+
+
+
+
+
 
 
 

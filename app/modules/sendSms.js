@@ -1,5 +1,4 @@
-
-
+const res = require('express/lib/response');
 
 async function sendingSms (mobile,code) {
     const MelipayamakApi = require('melipayamak');
@@ -23,6 +22,9 @@ async function sendingSms (mobile,code) {
     })
 }
 
+
+
 module.exports = {
-    sendingSms
+    sendingSms,
+
 }
