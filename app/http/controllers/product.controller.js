@@ -3,6 +3,40 @@ const { CategoryModel } = require("../../models/category");
 
 class ProductController {
 
+        async updateProduct(req,res,next){
+            try {
+                const {title,category,city,price,typee,statu,mobile,description,images,timee,id,address} = req.body;
+                const result = await ProductModel.updateOne({_id:id},{$set :{
+                    status:"1",
+                    title,category,city,price,typee,mobile,description,images,timee,address,statu
+                
+                }})
+                if(!result) throw "مشکل در ایجاد آگهی . لطفا مجدد تلاش نمایید";
+                return res.status(200).json({
+                    status:200,
+                    success:true,
+                    message:"آگهی شما با موفقیت ثبت شد"
+                })
+            } catch (error) {
+                next(error)
+            }
+        }
+
+        async getAllProductUser(req,res,next){
+            try {
+                const {mobile} = req.body;
+                const result = await ProductModel.find({mobile}).sort({'_id':-1}).limit(3)
+                if(!result) throw {status:400,message:"خطا در دریافت اطلاعات"}
+                return res.status(200).json({
+                    status:200,
+                    success:true,
+                    data:result
+                })
+            } catch (error) {
+                next(error)
+            }
+        }
+
         async updateProductStatus(req,res,next){
             try {
                 const {productId,statu} = req.body;
@@ -55,7 +89,6 @@ class ProductController {
 
         async getAllProduct(req,res,next){
             try {
-
                 const {limit} = req.body;
                 const result = await ProductModel.find({}).limit(limit)
                 if(!result) throw {status:400,message:"خطا در دریافت اطلاعات"}

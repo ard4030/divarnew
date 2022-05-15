@@ -19,6 +19,13 @@ router.post("/getAllProduct",checkLogin,ProductController.getAllProduct)
 router.post("/getProductsOnAdmin",checkLogin,ProductController.getProductsOnAdmin)
 router.post("/updateProductOnAdmin",checkLogin,ProductController.updateProductOnAdmin)
 router.post("/updateProductStatus",checkLogin,ProductController.updateProductStatus)
+router.post("/getAllProductUser",checkLogin,ProductController.getAllProductUser)
+router.post("/updateProduct",checkLogin,ProductController.updateProduct)
+
+
+
+
+
 
 
 
