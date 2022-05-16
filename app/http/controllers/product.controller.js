@@ -25,7 +25,7 @@ class ProductController {
         async getAllProductUser(req,res,next){
             try {
                 const {mobile} = req.body;
-                const result = await ProductModel.find({mobile}).sort({'_id':-1}).limit(3)
+                const result = await ProductModel.find({mobile}).sort({'_id':-1})
                 if(!result) throw {status:400,message:"خطا در دریافت اطلاعات"}
                 return res.status(200).json({
                     status:200,
