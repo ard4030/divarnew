@@ -6,10 +6,12 @@ class ProductController {
         async updateProduct(req,res,next){
             try {
                 const {title,category,city,price,typee,statu,mobile,description,images,timee,id,address} = req.body;
+
+                let typProd = "1"
+                if(typee === "فوری")  typProd = "6"      
                 const result = await ProductModel.updateOne({_id:id},{$set :{
-                    status:"1",
+                    status:typProd,
                     title,category,city,price,typee,mobile,description,images,timee,address,statu
-                
                 }})
                 if(!result) throw "مشکل در ایجاد آگهی . لطفا مجدد تلاش نمایید";
                 return res.status(200).json({
@@ -134,9 +136,14 @@ class ProductController {
 
         async createProduct(req,res,next){
             try {
-                const {title,category,city,price,typee,statu,mobile,description,images,timee,id,address} = req.body;
+                const {title,category,city,price,typee,statu,mobile,description,images,timee,address} = req.body;
+                
+                let typProd = "1"
+                if(typee === "فوری")  typProd = "6"
                 const result = await ProductModel.create({
-                    title,category,city,price,typee,statu,mobile,description,images,timee,userCradit:id,address
+                    title,category,city,price
+                    ,typee,statu,mobile,description
+                    ,images,timee,userCradit:req.mobile._id,address,status:typProd
                 })
                 if(!result) throw "مشکل در ایجاد آگهی . لطفا مجدد تلاش نمایید";
                 return res.status(200).json({

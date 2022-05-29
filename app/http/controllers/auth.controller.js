@@ -1,6 +1,7 @@
 
 
 const { UserModel } = require("../../models/auth");
+const { ProductModel } = require("../../models/product");
 const { tokenGenerator } = require("../../modules/functions");
 const { sendingSms } = require("../../modules/sendSms")
 
@@ -133,6 +134,24 @@ class AuthController {
                 status:200,
                 success:true
             })
+        } catch (error) {
+            next(error)
+        }
+    }
+    
+    async getBookmarks(req,res,next){
+        try {
+            const result = await UserModel.findOne({_id:req.mobile._id})
+            if(!result) throw {status:400,message:"خطا در انجام عملیات"}
+            const result2 = await ProductModel.find({_id:{$in:result.bookmarks}})
+            if(!result) throw {status:400,message:"خطا در انجام عملیات"}
+            return res.status(200).json({
+                status:200,
+                success:true,
+                data:result2
+            })
+            
+            
         } catch (error) {
             next(error)
         }
